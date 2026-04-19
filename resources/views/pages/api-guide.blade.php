@@ -62,7 +62,11 @@
         <p><code>{folder}</code> е едно от: <code>inbox</code>, <code>sent</code>, <code>spam</code>, <code>trash</code>.</p>
 
         <h3><code>GET /api/v1/email-accounts/{account}/folders/{folder}/messages</code></h3>
-        <p>Списък съобщения с преглед (заглавие, подател, дата и др.).</p>
+        <p>
+            Списък съобщения с преглед (заглавие, подател, дата, <code>from_name</code>, <code>from_mail</code> и др.).
+            Опционални query параметри: <code>sort=date_desc|date_asc</code> (по подразбиране <code>date_desc</code> — най-новите отгоре),
+            <code>sender</code> — част от името на изпращача, <code>email</code> — част от имейл адреса (филтърът се прилага върху последно заредения резултат от сървъра).
+        </p>
 
         <h3><code>GET /api/v1/email-accounts/{account}/folders/{folder}/messages/{uid}</code></h3>
         <p>Пълно съобщение по IMAP UID — включително <code>body_html</code> / <code>body_text</code>.</p>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Concerns\ApiResponses;
 use App\Http\Controllers\Controller;
 use App\Models\EmailAccount;
 use App\Services\ImapMailboxService;
+use App\Support\MailboxFolderQuery;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,10 +23,12 @@ class MailboxApiController extends Controller
 
         try {
             $messages = $mailbox->listMessages($account, $folderKey);
-            $payload = array_map(fn (array $row) => $this->serializeMessageRow($row), $messages);
+            $filtered = MailboxFolderQuery::filterAndSort(collect($messages), $request);
+            $payload = $filtered->map(fn (array $row) => $this->serializeMessageRow($row))->values()->all();
 
             return $this->ok([
                 'folder' => $folderKey,
+                'sort' => MailboxFolderQuery::sortParameter($request),
                 'messages' => $payload,
             ]);
         } catch (\Throwable $e) {
@@ -86,6 +89,8 @@ class MailboxApiController extends Controller
             'uid' => $row['uid'],
             'subject' => $row['subject'],
             'from' => $row['from'],
+            'from_name' => $row['from_name'] ?? '',
+            'from_mail' => $row['from_mail'] ?? '',
             'date' => $date ? $date->toIso8601String() : null,
             'seen' => $row['seen'],
             'preview' => $row['preview'],

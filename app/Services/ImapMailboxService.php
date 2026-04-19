@@ -289,6 +289,15 @@ class ImapMailboxService
                 $rows[] = $this->serializeListRow($message);
             }
 
+            usort($rows, function (array $a, array $b): int {
+                $aDate = $a['date'] ?? null;
+                $bDate = $b['date'] ?? null;
+                $ta = $aDate instanceof Carbon ? $aDate->timestamp : 0;
+                $tb = $bDate instanceof Carbon ? $bDate->timestamp : 0;
+
+                return $tb <=> $ta;
+            });
+
             return $rows;
         } finally {
             $client->disconnect();
@@ -463,6 +472,8 @@ class ImapMailboxService
             $first = $from->first();
         }
         $fromStr = $first ? trim(($first->personal ? $first->personal.' ' : '').'<'.($first->mail ?: $first->full).'>') : '';
+        $fromName = $first && $first->personal ? (string) $first->personal : '';
+        $fromMail = $first && $first->mail ? (string) $first->mail : '';
 
         $date = $message->getDate();
         $carbon = $date ? Carbon::parse((string) $date) : null;
@@ -480,6 +491,8 @@ class ImapMailboxService
             'uid' => $message->getUid(),
             'subject' => (string) $message->getSubject(),
             'from' => trim($fromStr),
+            'from_name' => $fromName,
+            'from_mail' => $fromMail,
             'date' => $carbon,
             'seen' => $seen,
             'preview' => $preview,

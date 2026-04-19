@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mail;
 use App\Http\Controllers\Controller;
 use App\Models\EmailAccount;
 use App\Services\ImapMailboxService;
+use App\Support\MailboxFolderQuery;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -30,14 +31,17 @@ class MailboxController extends Controller
                 'grouped' => collect(),
                 'error' => $e->getMessage(),
                 'groupBy' => $pref->inbox_group_by,
+                'sort' => MailboxFolderQuery::sortParameter($request),
             ]);
         }
 
-        $collection = collect($messages);
+        $collection = MailboxFolderQuery::filterAndSort(collect($messages), $request);
+
+        $sort = MailboxFolderQuery::sortParameter($request);
 
         $grouped = collect();
         if ($folderKey === 'inbox' && $pref->inbox_group_by === 'date') {
-            $grouped = $collection->groupBy(fn ($m) => optional($m['date'])->toDateString() ?? 'unknown');
+            $grouped = MailboxFolderQuery::groupByDateSorted($collection, $sort);
         }
 
         return view('mail.mailbox.folder', [
@@ -47,6 +51,7 @@ class MailboxController extends Controller
             'grouped' => $grouped,
             'error' => null,
             'groupBy' => $pref->inbox_group_by,
+            'sort' => $sort,
         ]);
     }
 
