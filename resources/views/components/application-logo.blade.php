@@ -1,0 +1,31 @@
+{{-- Лого: пощенски плик с монограма „@“ --}}
+@php($gid = 'logo-'.substr(md5((string) ($attributes->get('class') ?? 'default')), 0, 10))
+<svg
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    {{ $attributes }}
+>
+    <defs>
+        <linearGradient id="{{ $gid }}-bg" x1="6" y1="8" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3b82f6"/>
+            <stop offset="1" stop-color="#1d4ed8"/>
+        </linearGradient>
+        <linearGradient id="{{ $gid }}-at" x1="16" y1="16" x2="32" y2="34" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#eff6ff"/>
+            <stop offset="1" stop-color="#dbeafe"/>
+        </linearGradient>
+    </defs>
+    <rect x="5" y="10" width="38" height="28" rx="8" fill="url(#{{ $gid }}-bg)"/>
+    <path d="M8 14.5 24 24.5 40 14.5" stroke="#93c5fd" stroke-opacity=".6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text
+        x="24"
+        y="30"
+        text-anchor="middle"
+        font-family="system-ui, Segoe UI, sans-serif"
+        font-size="16"
+        font-weight="700"
+        fill="url(#{{ $gid }}-at)"
+    >@</text>
+</svg>
