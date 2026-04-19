@@ -1,58 +1,187 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Имейл клиент (Browser Email Client)
 
+Уеб приложение на **[Laravel](https://laravel.com)** за четене и управление на поща през **IMAP**, с профил по потребител, множество имейл акаунти и **REST API** (Laravel Sanctum). Интерфейсът е главно на **български**, с опция за тъмна тема.
+
+**Репозиторий:** [github.com/sasho-krist/email-client](https://github.com/sasho-krist/email-client)
+
+---
+
+## Снимки от екрана
+
+Качете PNG или WebP в каталога [`public/screenshots/`](public/screenshots/). Препоръчани имена (за да съвпадат с примерите по-долу):
+
+| Файл | Съдържание |
+|------|------------|
+| `home.png` | Начална / маркетинг страница |
+| `mailbox.png` | Поща — списък съобщения |
+| `message.png` | Преглед на писмо |
+| `settings-server.png` | Настройки на сървъра (IMAP/SMTP) |
+| `api-docs.png` | Страница „API упътване“ |
+
+Пример за вграждане в този README след като качите файловете:
+
+```markdown
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/screenshots/mailbox.png" alt="Поща" width="780" />
 </p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+*(В GitHub изображенията се показват спрямо клона по подразбиране — пълният път от хранилището е `public/screenshots/…`.)*
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Преглед
 
-## Code of Conduct
+- Вход и регистрация (Laravel Breeze), потвърждаване на имейл, профил с аватар.
+- Свързване към пощенски акаунти чрез **автоматично откриване** на IMAP/SMTP (Thunderbird/autoconfig и известни доставчици) или ръчни настройки.
+- Папки по роля: **Входящи**, **Изходящи**, **Спам**, **Кошче** — с автоматично разпознаване на системни папки при Gmail/Google и други доставчици.
+- Настройки за подпис (HTML/TinyMCE), поведение при изтриване, групиране на входящи и др.
+- Вградено упътване за REST API (`/api-docs`).
+- Страници: поверителност, общи условия, ЧЗВ.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Технологии
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Компонент | Бележки |
+|-----------|---------|
+| PHP | ^8.3 |
+| Laravel | ^13 |
+| Автентикация API | Laravel Sanctum |
+| IMAP | [webklex/laravel-imap](https://github.com/Webklex/laravel-imap) |
+| Тестове | PHPUnit |
+| Качество на код | Laravel Pint, PHPStan + Larastan |
+| Frontend | Blade, Tailwind CSS, Alpine.js, Vite |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Изисквания
+
+- **PHP** 8.3+ с разширения: `openssl`, `pdo_sqlite` и/или `pdo_mysql`, `mbstring`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`
+- **[Composer](https://getcomposer.org/)** 2.x
+- **Node.js** 18+ и npm (за събиране на фронтенда)
+- **База данни:** SQLite (удобно за локално) или MySQL/MariaDB — задава се в `.env`
+
+---
+
+## Клониране
+
+```bash
+git clone https://github.com/sasho-krist/email-client.git
+cd email-client
+```
+
+---
+
+## Инсталация
+
+1. **Зависимости на PHP**
+
+   ```bash
+   composer install
+   ```
+
+2. **Околна среда**
+
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+   Редактирайте `.env`: `APP_NAME`, `APP_URL`, `DB_*`, при нужда `MAIL_*` (за системни имейли — вижте коментарите в `.env.example` и секцията `extra.smtp-server` в `composer.json`).
+
+3. **База данни**
+
+   За SQLite (пример):
+
+   ```bash
+   touch database/database.sqlite
+   ```
+
+   В `.env`: `DB_CONNECTION=sqlite`, `DB_DATABASE=database/database.sqlite`
+
+   След това:
+
+   ```bash
+   php artisan migrate
+   ```
+
+4. **Фронтенд**
+
+   ```bash
+   npm ci
+   npm run build
+   ```
+
+   За разработка с горещо презареждане: `npm run dev` (и в друг терминал `php artisan serve`).
+
+5. **Стартиране**
+
+   ```bash
+   php artisan serve
+   ```
+
+   Отворете приложението на адреса, който показва Artisan (обикновено `http://127.0.0.1:8000`).
+
+---
+
+## Тестове и качество на кода
+
+```bash
+php artisan test
+vendor/bin/pint
+vendor/bin/phpstan analyse --memory-limit=512M
+```
+
+За проекта е конфигуриран **`phpunit.xml`** с SQLite за тестова база — не ползвайте production MySQL при пускане на тестовете без да прегледате настройките.
+
+---
+
+## REST API
+
+Базов префикс: **`/api/v1`** (напр. `https://вашият-домейн/api/v1`).
+
+Удостоверяване: след **`POST /api/v1/login`** ползвайте заглавка:
+
+`Authorization: Bearer <token>` и препоръчително `Accept: application/json`.
+
+### Основни маршрути
+
+| Метод | Път | Описание |
+|-------|-----|----------|
+| `POST` | `/api/v1/login` | Вход — връща токен Sanctum |
+| `POST` | `/api/v1/logout` | Изход (requires auth) |
+| `GET` | `/api/v1/user` | Текущ потребител |
+| `POST` | `/api/v1/mail/discover` | Откриване на IMAP/SMTP по имейл |
+| `GET` | `/api/v1/email-accounts` | Списък имейл акаунти |
+| `POST` | `/api/v1/email-accounts` | Създаване на акаунт |
+| `DELETE` | `/api/v1/email-accounts/{account}` | Изтриване на акаунт |
+| `GET` | `/api/v1/email-accounts/{account}/folders/{folder}/messages` | Съобщения в папка (`inbox`, `sent`, `spam`, `trash`) |
+| `GET` | `/api/v1/email-accounts/{account}/folders/{folder}/messages/{uid}` | Едно съобщение по UID |
+| `DELETE` | `/api/v1/email-accounts/{account}/folders/{folder}/messages/{uid}` | Изтриване/обработка на съобщение |
+| `PATCH` | `/api/v1/mail/settings` | Настройки на пощата |
+
+Пълно описание на полетата и примери има на страницата **`/api-docs`** в работещото приложение.
+
+---
+
+## Composer скриптове (откъси)
+
+| Скрипт | Действие |
+|--------|----------|
+| `composer run setup` | Инсталация, `.env`, ключ, миграции, npm install и build |
+| `composer run dev` | Сървър + опашка + логове + Vite (вижте `composer.json`) |
+| `composer run test` | Изчистване на кеш конфигурация и `php artisan test` |
+
+---
+
+## Лиценз
+
+В `composer.json` проектът е обозначен с **MIT** — съответствайте на условията на Laravel и използваните пакети.
+
+---
+
+## Благодарности
+
+- [Laravel](https://laravel.com)
+- [Webklex IMAP](https://github.com/Webklex/laravel-imap)
