@@ -8,25 +8,55 @@
 
 ## Снимки от екрана
 
-Качете PNG или WebP в каталога [`public/screenshots/`](public/screenshots/). Препоръчани имена (за да съвпадат с примерите по-долу):
+Интерфейсът е с **тъмна тема** и на **български**. Файловете са в [`public/screenshots/`](public/screenshots/).
 
-| Файл | Съдържание |
-|------|------------|
-| `home.png` | Начална / маркетинг страница |
-| `mailbox.png` | Поща — списък съобщения |
-| `message.png` | Преглед на писмо |
-| `settings-server.png` | Настройки на сървъра (IMAP/SMTP) |
-| `api-docs.png` | Страница „API упътване“ |
+### Начална страница
 
-Пример за вграждане в този README след като качите файловете:
-
-```markdown
 <p align="center">
-  <img src="public/screenshots/mailbox.png" alt="Поща" width="780" />
+  <img src="public/screenshots/7.png" alt="Начало — описание на приложението и основни възможности" width="780" />
 </p>
-```
 
-*(В GitHub изображенията се показват спрямо клона по подразбиране — пълният път от хранилището е `public/screenshots/…`.)*
+### Поща — входящи
+
+<p align="center">
+  <img src="public/screenshots/1.png" alt="Входящи — списък съобщения" width="780" />
+</p>
+
+### Поща — изходящи
+
+<p align="center">
+  <img src="public/screenshots/2.png" alt="Изходящи — изпратени съобщения" width="780" />
+</p>
+
+### Поща — нежелана поща
+
+<p align="center">
+  <img src="public/screenshots/3.png" alt="Нежелана поща (спам)" width="780" />
+</p>
+
+### Настройки — сървър (IMAP/SMTP)
+
+<p align="center">
+  <img src="public/screenshots/4.png" alt="Настройки: входящ и изходящ сървър, Gmail указания" width="780" />
+</p>
+
+### Настройки — подпис (HTML / TinyMCE)
+
+<p align="center">
+  <img src="public/screenshots/5.png" alt="Настройки: имейл подпис с rich text редактор" width="780" />
+</p>
+
+### Имейл акаунти
+
+<p align="center">
+  <img src="public/screenshots/6.png" alt="Списък имейл акаунти, добавяне и действия" width="780" />
+</p>
+
+### Упътване за REST API
+
+<p align="center">
+  <img src="public/screenshots/8.png" alt="Страница API: базов URL, Sanctum, login/logout" width="780" />
+</p>
 
 ---
 
